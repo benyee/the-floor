@@ -1,4 +1,5 @@
 from cards import *
+from copy import deepcopy
 
 
 ################ AGE 1 CARDS ####################
@@ -12,40 +13,40 @@ name = "ALTAR"
 cost_req = []
 tech_tree['next'] = ["TEMPLE",]
 min_players = 3
-card = BlueCard(name, cost_req, tech_tree, age, min_players,2)
+card = BlueCard(name, cost_req, deepcopy(tech_tree), age, min_players,2)
 age_1_cards += [card,]
 min_players = 5
-card = BlueCard(name, cost_req, tech_tree, age, min_players,2)
+card = BlueCard(name, cost_req, deepcopy(tech_tree), age, min_players,2)
 age_1_cards += [card,]
 ###
 name = "BATHS"
 cost_req = ["STONE",]
 tech_tree['next'] = ["AQUEDUCT",]
 min_players = 3
-card = BlueCard(name, cost_req, tech_tree, age, min_players,3)
+card = BlueCard(name, cost_req, deepcopy(tech_tree), age, min_players,3)
 age_1_cards += [card,]
 min_players = 7
-card = BlueCard(name, cost_req, tech_tree, age, min_players,3)
+card = BlueCard(name, cost_req, deepcopy(tech_tree), age, min_players,3)
 age_1_cards += [card,]
 ###
 name = "PAWNSHOP"
 cost_req = []
 tech_tree['next'] = []
 min_players = 4
-card = BlueCard(name, cost_req, tech_tree, age, min_players,3)
+card = BlueCard(name, cost_req, deepcopy(tech_tree), age, min_players,3)
 age_1_cards += [card,]
 min_players = 7
-card = BlueCard(name, cost_req, tech_tree, age, min_players,3)
+card = BlueCard(name, cost_req, deepcopy(tech_tree), age, min_players,3)
 age_1_cards += [card,]
 ###
 name = "THEATER"
 cost_req = []
 tech_tree['next'] = ['STATUE',]
 min_players = 3
-card = BlueCard(name, cost_req, tech_tree, age, min_players,2)
+card = BlueCard(name, cost_req, deepcopy(tech_tree), age, min_players,2)
 age_1_cards += [card,]
 min_players = 6
-card = BlueCard(name, cost_req, tech_tree, age, min_players,2)
+card = BlueCard(name, cost_req, deepcopy(tech_tree), age, min_players,2)
 age_1_cards += [card,]
 
 #Brown cards:
@@ -193,11 +194,11 @@ cost_req = []
 tech_tree['next'] = ["STABLES","DISPENSARY"]
 min_players = 3
 science_type = "COMPASS"
-card = YellowCard(name, cost_req, tech_tree, age, min_players, \
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players, \
 		science_type)
 age_1_cards += [card,]
 min_players = 5
-card = YellowCard(name, cost_req, tech_tree, age, min_players, \
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players, \
 		science_type)
 age_1_cards += [card,]
 ###
@@ -206,11 +207,11 @@ cost_req = []
 tech_tree['next'] = ["COURTHOUSE","LIBRARY"]
 min_players = 3
 science_type = "TABLET"
-card = YellowCard(name, cost_req, tech_tree, age, min_players, \
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players, \
 		science_type)
 age_1_cards += [card,]
 min_players = 4
-card = YellowCard(name, cost_req, tech_tree, age, min_players, \
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players, \
 		science_type)
 age_1_cards += [card,]
 ###
@@ -219,11 +220,11 @@ cost_req = []
 tech_tree['next'] = ["LABORATORY","ARCHERY RANGE"]
 min_players = 3
 science_type = "WHEEL"
-card = YellowCard(name, cost_req, tech_tree, age, min_players, \
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players, \
 		science_type)
 age_1_cards += [card,]
 min_players = 7
-card = YellowCard(name, cost_req, tech_tree, age, min_players, \
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players, \
 		science_type)
 age_1_cards += [card,]
 
@@ -232,30 +233,30 @@ name = "BARRACKS"
 cost_req = ["ORE",]
 tech_tree['next'] = []
 min_players = 3
-card = RedCard(name, cost_req, tech_tree, age, min_players)
+card = RedCard(name, cost_req, deepcopy(tech_tree), age, min_players)
 age_1_cards += [card,]
 min_players = 5
-card = RedCard(name, cost_req, tech_tree, age, min_players)
+card = RedCard(name, cost_req, deepcopy(tech_tree), age, min_players)
 age_1_cards += [card,]
 ###
 name = "GUARD TOWER"
 cost_req = ["BRICK",]
 tech_tree['next'] = []
 min_players = 3
-card = RedCard(name, cost_req, tech_tree, age, min_players)
+card = RedCard(name, cost_req, deepcopy(tech_tree), age, min_players)
 age_1_cards += [card,]
 min_players = 4
-card = RedCard(name, cost_req, tech_tree, age, min_players)
+card = RedCard(name, cost_req, deepcopy(tech_tree), age, min_players)
 age_1_cards += [card,]
 ###
 name = "STOCKADE"
 cost_req = ["WOOD",]
 tech_tree['next'] = []
 min_players = 3
-card = RedCard(name, cost_req, tech_tree, age, min_players)
+card = RedCard(name, cost_req, deepcopy(tech_tree), age, min_players)
 age_1_cards += [card,]
 min_players = 7
-card = RedCard(name, cost_req, tech_tree, age, min_players)
+card = RedCard(name, cost_req, deepcopy(tech_tree), age, min_players)
 age_1_cards += [card,]
 
 #Yellow cards:
@@ -265,11 +266,11 @@ tech_tree['next'] = ["CARAVANSERY",]
 min_players = 3
 descrip = "Allows you to buy gray resources from either of your "
 descrip += "two neighbors for 1 coin instead of 2"
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 min_players = 6
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 ####
@@ -278,15 +279,15 @@ cost_req = []
 tech_tree['next'] = []
 min_players = 4
 descrip = "Gives 5 gold instantly."
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 min_players = 5
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 min_players = 7
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 ###
@@ -296,11 +297,11 @@ tech_tree['next'] = ["FORUM",]
 min_players = 3
 descrip = "Allows you to buy brown resources from your "
 descrip += "right neighbor for 1 coin instead of 2"
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 min_players = 7
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 ###
@@ -310,11 +311,11 @@ tech_tree['next'] = ["FORUM",]
 min_players = 3
 descrip = "Allows you to buy brown resources from your "
 descrip += "left neighbor for 1 coin instead of 2"
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 min_players = 7
-card = YellowCard(name, cost_req, tech_tree, age, min_players,\
+card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players,\
 		descrip)
 age_1_cards += [card,]
 ###
@@ -340,6 +341,7 @@ tech_tree = {}
 age_3_cards = []
 age = 3
 tech_tree = {}
+tech_tree['next'] = []
 
 ###############################################################
 ###############################################################
