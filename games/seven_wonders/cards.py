@@ -96,75 +96,36 @@ class ResourceCard(Card):
 	"""Represents a brown or gray resource card.
 
 	Attributes:
-		tot_rsrc: total number of resources in this card
-			If a card is a / card, then tot_rsrc = 1
-			If a card just has a single rsrc, tot_rsrc = 1
-			If a card has 2 resources, then tot_rsrc = 2
-		curr_rsrc: dictionary with three entries: 'left','owner','right'
-			Each entry lists the number of resources still available
-			for use by the respective player.  For example, if
-			curr_rsrc['owner'] = 0, then the owner cannot use this card anymore
-			this turn.  All three entries reset to tot_rsrc at the beginning
-			of a turn
-		has_rsrc: dictionary with brwn_rsrc_list and/or gry_rsrc_list
-			as the keys.  Each entry is a boolean.
-
-		For example, a "2 stone" resource card would look the same as a
-		"1 stone" resource card, except that tot_rsrc = 2 instead of 1
-
-		A "stone/brick" resource card would have "True" under has_rsrc['STONE']
-		and has_rsrc['BRICK'], but tot_rsrc=1
-
-		A "stone" resource card would have "True under just has_rsrc['STONE']
-		and have tot_rsrc=1
+		token_list: list of ResourceToken pointers associated with this resource card
 	"""
 	
-	def __init__(self, name, cost_req, tech_tree, age, min_players, tot_rsrc,\
-			descrip, color=None):
-		Card.__init__(self, name, cost_req, tech_tree, age, min_players, \
-			descrip, color)
-		self.tot_rsrc = tot_rsrc
-		assert( type(tot_rsrc) is int )
-		assert( tot_rsrc > 0 )
-		assert( tot_rsrc < 3 )
+	def __init__(self, name, cost_req, tech_tree, age, min_players, token_list,
+			color=None):
+
+		assert( len(token_list) > 0)
 		assert( age < 3 )
 
-		self.curr_rsrc = {}
-		for player in ['left','curr','right']:
-			self.curr_rsrc[player] = tot_rsrc
-		self.has_rsrc = {}
+		descrip = "Provides"
+		for token in token_list:
+			descrip += " 1 "+str(token)+','
+		descrip = descrip[:-1]+'.'
+
+		Card.__init__(self, name, cost_req, tech_tree, age, min_players, \
+			descrip, color)
+
+		self.token_list = token_list
 
 class BrownResource(ResourceCard):
 	"""Represents a brown resource card.
 	"""
-	def __init__(self, name, cost_req, age, min_players, \
-					tot_rsrc, rsrc_list):
+	def __init__(self, name, cost_req, age, min_players, token_list):
 		""" rsrc_list is a list of rsrcs provided by the card """
-
-		assert( len(rsrc_list) > 0)
-		descrip = "Provides "+str(tot_rsrc)
-		if len(rsrc_list) > 1:
-			descrip += " of the following: "
-			for rsrc in rsrc_list[:-1]:
-				descrip += rsrc + ", "
-			descrip += rsrc_list[-1]+"."
-		else:
-			descrip += rsrc_list[0]+"."
 
 		tech_tree = {}
 		tech_tree['prev'] = []
 		tech_tree['next'] = []
 		ResourceCard.__init__(self, name, cost_req, tech_tree, age, \
-			min_players, tot_rsrc, descrip, color="brown")
-		
-		for rsrc in rsrc_list:
-			assert( rsrc in self.brwn_rsrc_list )
-
-		for rsrc in self.brwn_rsrc_list:
-			if rsrc in rsrc_list:
-				self.has_rsrc[rsrc] = True
-			else:
-				self.has_rsrc[rsrc] = False 
+			min_players, token_list, color="brown")
 
 class GrayResource(ResourceCard):
 	"""Represents a gray resource card.
@@ -178,19 +139,13 @@ class GrayResource(ResourceCard):
 		tech_tree = {}
 		tech_tree['prev'] = []
 		tech_tree['next'] = []
-		descrip = "Provides 1 " + rsrc_list[0] +'.'
+
+		token = ResourceToken(rsrc_list)
+		token_list = [token,]
+
 		ResourceCard.__init__(self, name, cost_req, tech_tree, age, \
-			min_players, 1, descrip, color="gray")
+			min_players, token_list, color="gray")
 		
-		for rsrc in rsrc_list:
-			assert( rsrc in self.gry_rsrc_list )
-
-		for rsrc in self.gry_rsrc_list:
-			if rsrc in rsrc_list:
-				self.has_rsrc[rsrc] = True
-			else:
-				self.has_rsrc[rsrc] = False 
-
 class YellowCard(Card):
 	"""Represents a yellow card that does NOT provide resources.
 
@@ -244,44 +199,32 @@ class YellowResource(ResourceCard):
 		""" rsrc_list is a list of rsrcs provided by the card """
 
 		cost_req = ['WOOD','WOOD']
-		descrip = "Provides 1 of: "
 		tech_tree = {}
 
 		if name == "FORUM":
 			cost_req = ['BRICK','BRICK']
-
 			tech_tree['prev'] = ['WEST TRADING POST','EAST TRADING POST']
 			tech_tree['next'] = ['HAVEN',]
-
-			for rsrc in self.gry_rsrc_list[:-1]:
-				descrip += rsrc + ", "
-			descrip += self.gry_rsrc_list[-1] +"."
-
 		else:
 			assert( name == "CARAVANSERY" )
-
 			tech_tree['prev'] = ['MARKETPLACE',]
 			tech_tree['next'] = ['LIGHTHOUSE',]
 
-			for rsrc in self.brwn_rsrc_list[:-1]:
-				descrip += rsrc + ", "
-			descrip += self.brwn_rsrc_list[-1] +"."
-
-		ResourceCard.__init__(self, name=name,\
-									cost_req=cost_req,\
-									tech_tree=tech_tree,\
-									age=2,\
-									min_players=min_players,\
-									tot_rsrc=1,\
-									descrip=descrip,\
-									color="yellow")
-
+		token_list = []
 		if name == "FORUM":
-			for rsrc in self.gry_rsrc_list:
-				self.has_rsrc[rsrc] = True
+			token = ResourceToken(self.gry_rsrc_list, is_shareable=False)
+			token_list = [token,]
 		elif name == "CARAVANSERY":
-			for rsrc in self.brwn_rsrc_list:
-				self.has_rsrc[rsrc] = True
+			token = ResourceToken(self.brwn_rsrc_list, is_shareable=False)
+			token_list = [token,]
+
+		ResourceCard.__init__(self, name=name,
+									cost_req=cost_req,
+									tech_tree=tech_tree,
+									age=2,
+									min_players=min_players,
+									token_list=token_list,
+									color="yellow")
 
 class RedCard(Card):
 	""" Represents a military card.  
@@ -385,4 +328,40 @@ class PurpleCard(Card):
 				vic_pts += neighbor.get_num_color("brown")
 			return vic_pts
 		return 0
+
+class ResourceToken(object):
+	""" This class represents a single resource.
+
+		Attributes:
+			is_rsrc: dictionary of boolean values
+				Each key is either a brown or gray resource
+			is_shareable: boolean, whether or not this resource can be bought 
+				by neighbors
+	"""
+
+	def __init__(self, rsrc_list, is_shareable=True):
+		self.is_shareable = is_shareable
+
+		self.is_rsrc = {'LOOM':False,
+				   'GLASSWORKS':False,
+				   'PRESS':False,
+				   'WOOD':False,
+				   'ORE':False,
+				   'BRICK':False,
+				   'STONE':False, 
+				  }
+
+		for rsrc in rsrc_list:
+			assert( rsrc in self.is_rsrc.keys() )
+			self.is_rsrc[rsrc] = True
+
+	def __str__(self):
+		out_str = ''
+		for rsrc in self.is_rsrc.keys():
+			if self.is_rsrc[rsrc]:
+				out_str += rsrc+'/'
+		out_str = out_str[:-1]
+		if not self.is_shareable:
+			out_str += " (NOT SHAREABLE)"
+		return out_str
 
