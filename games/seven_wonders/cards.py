@@ -82,11 +82,7 @@ class Card(object):
 		""" Alters the status (e.g., how much gold they have) of a player
 			 based on the cards he and his neighbor owns.
 		"""
-		#Default is to subtract coin cost of card
-		if curr_player.coins > 0:
-			print "ERROR: THIS CARD CANNOT BE PLAYED BECAUSE THE PLAYER HAS"\
-				+"NOT ENOUGH GOLD"
-		curr_player.coins -= self.coins_req
+		#Default is to do nothing
 		return
 
 	def get_victory_points( self, curr_player, left_neighbor, right_neighbor):
