@@ -447,7 +447,7 @@ name = "DISPENSARY"
 cost_req = ['ORE','ORE','GLASSWORKS']
 tech_tree['prev'] = ["APOTHECARY"]
 tech_tree['next'] = ["ARENA","LODGE"]
-science_type = "WHEEL"
+science_type = "COMPASS"
 min_players = 3
 card = YellowCard(name, cost_req, deepcopy(tech_tree), age, min_players, \
 		science_type)
